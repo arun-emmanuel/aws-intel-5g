@@ -22,7 +22,8 @@
                         "VPCeNBPrvSubnetS1UCIDR",
                         "VPCeNBTenancy",
 						"RemoteAccessCIDR",
-						"ENBNETCIDR"
+						"ENBNETCIDR",
+                        "S3BucketName"
                     ]
                 }
             ],
@@ -53,6 +54,9 @@
                 },
                 "VPCeNBTenancy": {
                     "default": "Default"
+                },
+                "S3BucketName": {
+                    "default": "S3 Bucket Name"
                 }
             }
         }
@@ -116,7 +120,11 @@
             "Description": "Allowed CIDR block for external SSH access to the EC2 instance",
             "Type": "String",
             "Default": "0.0.0.0/0"
-        }
+        },
+        "S3BucketName": {
+			"Description": "S3 Bucket Name",
+			"Type": "String"
+		}
     },
 
     "Resources": {
@@ -414,6 +422,44 @@
 				]
             }
         },
+        "GetSupernetCIDR": {
+			"Type": "Custom::SupernetCIDR",
+			"Properties": {
+				"ServiceToken": { "Fn::GetAtt" : ["SupernetCIDRFunction", "Arn"] },
+				"VPCCIDR": {"Ref": "VPCeNBCIDR"}
+			}
+		},
+
+		"SupernetCIDRFunction": {
+			"Type": "AWS::Lambda::Function",
+			"Properties": {
+			"Code": {
+				"S3Bucket": {"Ref": "S3BucketName"},
+				"S3Key": "lambda_function.zip"
+			},
+			"Handler": "lambda_function.handler_supernet_ip_cidr",
+			"Role": { "Fn::GetAtt" : ["LambdaExecutionRole", "Arn"] },
+			"Runtime": "python3.8",
+			"Timeout": "30"
+			}
+		},
+        "LambdaExecutionRole": {
+			"Type": "AWS::IAM::Role",
+			"Properties": {
+				"AssumeRolePolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [{
+						"Effect": "Allow",
+						"Principal": {"Service": ["lambda.amazonaws.com"]},
+						"Action": ["sts:AssumeRole"]
+					}]
+				},
+				"Path": "/",
+				"ManagedPolicyArns": [
+					"arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+				]
+			}
+		},
 		"SecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
@@ -427,7 +473,7 @@
                         "IpProtocol": "-1",
                         "FromPort": "-1",
                         "ToPort": "-1",
-                        "CidrIp": "10.0.0.0/8"
+                        "CidrIp": {"Fn::GetAtt": ["GetSupernetCIDR", "SupernetCIDR"]}
                     },
                     {
                         "IpProtocol": "-1",

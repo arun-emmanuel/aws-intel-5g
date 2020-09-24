@@ -228,7 +228,7 @@
                 "InstanceType": {
                     "Ref": "InstanceType"
                 },
-				
+
                 "NetworkInterfaces": [
                     {
                     "NetworkInterfaceId" : {"Ref" : "InterfaceMgmt"},

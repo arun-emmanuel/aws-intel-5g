@@ -313,6 +313,7 @@
 				 "VPCeNBName": {"Ref": "VPCeNBName"},
 				 "VPCeNBCIDR": {"Ref": "VPCeNBCIDR"},
 				 "ENBNETCIDR": {"Ref": "ENBNETCIDR"},
+                 "S3BucketName": {"Ref": "S3BucketName"},
 				 "VPCeNBPubSubnet1CIDR": {"Fn::Select" : [0, { "Fn::Cidr" : [{"Ref": "VPCeNBCIDR"}, 256, 8]}]},
                  "VPCeNBPrvSubnetMgmtCIDR": {"Fn::Select" : [1, { "Fn::Cidr" : [{"Ref": "VPCeNBCIDR"}, 256, 8]}]},
                  "VPCeNBPrvSubnetS1UCIDR": {"Fn::Select" : [2, { "Fn::Cidr" : [{"Ref": "VPCeNBCIDR"}, 256, 8]}]}
@@ -335,6 +336,7 @@
 				 "VPCMECName": {"Ref": "VPCMECName"},
 				 "VPCMECCIDR": {"Ref": "VPCMECCIDR"},
 				 "ENBNETCIDR": {"Ref": "ENBNETCIDR"},
+                 "S3BucketName": {"Ref": "S3BucketName"},
                  "VPCMECPubSubnet1CIDR": {"Fn::Select" : [0, { "Fn::Cidr" : [{"Ref": "VPCMECCIDR"}, 256, 8]}]},
                  "VPCMECPrvSubnetMgmtSx1CIDR": {"Fn::Select" : [1, { "Fn::Cidr" : [{"Ref": "VPCMECCIDR"}, 256, 8]}]},
                  "VPCMECPrvSubnetS1UCIDR": {"Fn::Select" : [2, { "Fn::Cidr" : [{"Ref": "VPCMECCIDR"}, 256, 8]}]},
@@ -363,6 +365,7 @@
 				 "VPCGiLANName": {"Ref": "VPCGiLANName"},
 				 "VPCGiLANCIDR": {"Ref": "VPCGiLANCIDR"},
 				 "UENETCIDR": {"Ref": "UENETCIDR"},
+                 "S3BucketName": {"Ref": "S3BucketName"},
                  "VPCGiLANPubSubnet1CIDR": {"Fn::Select" : [0, { "Fn::Cidr" : [{"Ref": "VPCGiLANCIDR"}, 256, 8]}]},
                  "VPCGiLANPrvSubnetMgmtCIDR": {"Fn::Select" : [1, { "Fn::Cidr" : [{"Ref": "VPCGiLANCIDR"}, 256, 8]}]},
                  "VPCGiLANPrvSubnetSGICIDR": {"Fn::Select" : [3, { "Fn::Cidr" : [{"Ref": "VPCGiLANCIDR"}, 256, 8]}]}
@@ -379,6 +382,7 @@
 	             "AvailabilityZones": {"Fn::Join": [",", {"Ref": "AvailabilityZones"}] },
 				 "VPCCPName": {"Ref": "VPCCPName"},
 				 "VPCCPCIDR": {"Ref": "VPCCPCIDR"},
+                 "S3BucketName": {"Ref": "S3BucketName"},
                  "VPCCPPubSubnet1CIDR": {"Fn::Select" : [0, { "Fn::Cidr" : [{"Ref": "VPCCPCIDR"}, 256, 8]}]},
                  "VPCCPPrvSubnetMgmtCIDR": {"Fn::Select" : [1, { "Fn::Cidr" : [{"Ref": "VPCCPCIDR"}, 256, 8]}]}
 	          },
